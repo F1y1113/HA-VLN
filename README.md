@@ -193,6 +193,23 @@ To modify the output data path, change the following line in [scripts/human_scen
 ```
 output_path = "test/"
 ```
+---
+
+## 🌆 Navigate within a Scene Yourself
+
+You can navigate through a scene with keyboard:
+| Key | Action        |
+|:----|:--------------|
+| **W** | Move forward |
+| **A** | Turn left    |
+| **D** | Turn right   |
+
+```
+cd scritps
+python demo.py --scan 1LXtFkjw3qL
+```
+You may change the scan id to that of the scene you want to explore.
+
 
 ---
 
