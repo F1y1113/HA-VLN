@@ -49,9 +49,9 @@ Navigation Demo 1|Navigation Demo 2
 
 If you find this repository or our paper useful, please consider **starring** this repository and **citing** our paper:
 ```bibtex
-@misc{dong2025havlnbenchmarkhumanawarenavigation,
-      title={HA-VLN: A Benchmark for Human-Aware Navigation in Discrete-Continuous Environments with Dynamic Multi-Human Interactions, Real-World Validation, and an Open Leaderboard}, 
-      author={Yifei Dong and Fengyi Wu and Qi He and Heng Li and Minghan Li and Zebang Cheng and Yuxuan Zhou and Jingdong Sun and Qi Dai and Zhi-Qi Cheng and Alexander G Hauptmann},
+@misc{dong2025havln20openbenchmark,
+      title={HA-VLN 2.0: An Open Benchmark and Leaderboard for Human-Aware Navigation in Discrete and Continuous Environments with Dynamic Multi-Human Interactions}, 
+      author={Yifei Dong and Fengyi Wu and Qi He and Zhi-Qi Cheng and Heng Li and Minghan Li and Zebang Cheng and Yuxuan Zhou and Jingdong Sun and Qi Dai and Alexander G Hauptmann},
       year={2025},
       eprint={2503.14229},
       archivePrefix={arXiv},
