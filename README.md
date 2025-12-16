@@ -1,7 +1,7 @@
 <br>
 <p align="center">
 
-<h1 align="center"><strong>HA-VLN 2.0 (Human-Aware Vision-and-Language Nagivation 2.0)</strong></h1>
+<h1 align="center"><strong>HA-VLN 2.0: An Open Benchmark and Leaderboard for Human-Aware Navigation in Discrete and Continuous Environments with Dynamic Multi-Human Interactions</strong></h1>
   <p align="center"><span><a href=""></a></span>
               <a>Yifei Dong<sup>1,*</sup>,</a>
               <a>Fengyi Wu<sup>1,*</sup>,</a>
