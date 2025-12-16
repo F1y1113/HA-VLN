@@ -40,7 +40,7 @@
   <img src="demo/figs/task_define_final-1.png" alt="image" width="700"/>
 </div>
 
-## 🧭 What does HA-VLN look like?
+## 🧭 What does HA-VLN 2.0 look like?
 
 Navigation Demo 1|Navigation Demo 2
 --|--
