@@ -221,14 +221,15 @@ _C.MODEL.ablate_instruction = False
 
 _C.MODEL.INSTRUCTION_ENCODER = CN()
 _C.MODEL.INSTRUCTION_ENCODER.sensor_uuid = "instruction"
-_C.MODEL.INSTRUCTION_ENCODER.vocab_size = 5401
+_C.MODEL.INSTRUCTION_ENCODER.vocab_size = 5079
 _C.MODEL.INSTRUCTION_ENCODER.use_pretrained_embeddings = True
 _C.MODEL.INSTRUCTION_ENCODER.embedding_file = (
-    "../Data/HA-R2R-tools/embeddings.json.gz"
+    "../Data/HA-R2R-tools/embeddings_glove_50d.json.gz"
 )
 _C.MODEL.INSTRUCTION_ENCODER.dataset_vocab = (
-    "../Data/HA-R2R/train/train.json.gz"
+    "../Data/HA-R2R-tools/instruction_vocab.json"
 )
+_C.MODEL.INSTRUCTION_ENCODER.checkpoint_embedding_mode = "restore"
 _C.MODEL.INSTRUCTION_ENCODER.fine_tune_embeddings = False
 _C.MODEL.INSTRUCTION_ENCODER.embedding_size = 50
 _C.MODEL.INSTRUCTION_ENCODER.hidden_size = 128

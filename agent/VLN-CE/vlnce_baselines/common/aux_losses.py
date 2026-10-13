@@ -1,6 +1,14 @@
 import torch
 
 
+def progress_monitor_loss(prediction, target):
+    """Return one progress error per step, accepting scalar or singleton targets."""
+    return torch.nn.functional.mse_loss(
+        prediction.reshape(-1), target.reshape_as(prediction).reshape(-1),
+        reduction="none",
+    )
+
+
 class _AuxLosses:
     def __init__(self) -> None:
         self._losses = {}

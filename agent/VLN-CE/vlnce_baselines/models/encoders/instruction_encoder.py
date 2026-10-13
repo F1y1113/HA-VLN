@@ -1,11 +1,9 @@
-import gzip
-import json
-
 import torch
 import torch.nn as nn
 from habitat import Config
 from habitat.core.simulator import Observations
 from torch import Tensor
+from vlnce_baselines.common.instruction_embeddings import load_embeddings, read_word_list
 
 
 class InstructionEncoder(nn.Module):
@@ -32,14 +30,16 @@ class InstructionEncoder(nn.Module):
         )
 
         if config.sensor_uuid == "instruction":
+            self.word_list = read_word_list(config.dataset_vocab)
             if self.config.use_pretrained_embeddings:
                 self.embedding_layer = nn.Embedding.from_pretrained(
                     embeddings=self._load_embeddings(),
                     freeze=not self.config.fine_tune_embeddings,
+                    padding_idx=0,
                 )
             else:  # each embedding initialized to sampled Gaussian
                 self.embedding_layer = nn.Embedding(
-                    num_embeddings=config.vocab_size,
+                    num_embeddings=len(self.word_list),
                     embedding_dim=config.embedding_size,
                     padding_idx=0,
                 )
@@ -51,14 +51,11 @@ class InstructionEncoder(nn.Module):
     def _load_embeddings(self) -> Tensor:
         """Loads word embeddings from a pretrained embeddings file.
         PAD: index 0. [0.0, ... 0.0]
-        UNK: index 1. mean of all R2R word embeddings: [mean_0, ..., mean_n]
-        why UNK is averaged: https://bit.ly/3u3hkYg
+        UNK: index 1. Mean of matched dataset word embeddings.
         Returns:
             embeddings tensor of size [num_words x embedding_dim]
         """
-        with gzip.open(self.config.embedding_file, "rt") as f:
-            embeddings = torch.tensor(json.load(f))
-        return embeddings
+        return load_embeddings(self.config.embedding_file, self.word_list, self.config.embedding_size)
 
     def forward(self, observations: Observations) -> Tensor:
         """

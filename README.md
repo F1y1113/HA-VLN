@@ -446,6 +446,10 @@ You may change the scan id to that of the scene you want to explore.
 
 To implement the HA-VLN-CMA agent, you can use the following script:
 
+The [instruction embedding notes](Data/HA-R2R-tools/README.md) describe the
+word-aligned initializer for new training and checkpoint restoration for the
+released CMA baseline.
+
 ```bash
 cd agent
 # Training

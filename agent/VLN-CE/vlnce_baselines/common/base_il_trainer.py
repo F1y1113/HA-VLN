@@ -28,6 +28,9 @@ from habitat_extensions.utils import generate_video, observations_to_image
 from vlnce_baselines.common.aux_losses import AuxLosses
 from vlnce_baselines.common.env_utils import construct_envs_auto_reset_false
 from vlnce_baselines.common.utils import extract_instruction_tokens
+from vlnce_baselines.common.instruction_embeddings import (
+    checkpoint_vocab, load_policy_checkpoint, read_word_list,
+)
 
 import sys 
 sys.path.append('../..')
@@ -74,19 +77,30 @@ class BaseVLNCETrainer(BaseILTrainer):
         )
         self.policy.to(self.device)
 
+        encoder = self.policy.net.instruction_encoder
+        if hasattr(encoder, "word_list"):
+            dataset_path = config.TASK_CONFIG.DATASET.DATA_PATH.format(
+                split=config.TASK_CONFIG.DATASET.SPLIT
+            )
+            if read_word_list(dataset_path) != encoder.word_list:
+                raise ValueError("Task dataset and instruction encoder vocabularies differ")
+        if load_from_ckpt:
+            ckpt_path = config.IL.ckpt_to_load
+            ckpt_dict = self.load_checkpoint(ckpt_path, map_location="cpu")
+            load_policy_checkpoint(
+                self.policy, ckpt_dict, getattr(encoder, "word_list", []),
+                getattr(config.MODEL.INSTRUCTION_ENCODER, "checkpoint_embedding_mode", "restore"),
+            )
+            logger.info(f"Loaded weights from checkpoint: {ckpt_path}")
+
         self.optimizer = torch.optim.Adam(
             self.policy.parameters(), lr=self.config.IL.lr
         )
         if load_from_ckpt:
-            ckpt_path = config.IL.ckpt_to_load
-            ckpt_dict = self.load_checkpoint(ckpt_path, map_location="cpu")
-            del ckpt_dict["state_dict"]['net.instruction_encoder.embedding_layer.weight']
-            self.policy.load_state_dict(ckpt_dict["state_dict"], strict=False)
             if config.IL.is_requeue:
                 self.optimizer.load_state_dict(ckpt_dict["optim_state"])
                 self.start_epoch = ckpt_dict["epoch"] + 1
                 self.step_id = ckpt_dict["step_id"]
-            logger.info(f"Loaded weights from checkpoint: {ckpt_path}")
 
         params = sum(param.numel() for param in self.policy.parameters())
         params_t = sum(
@@ -133,6 +147,9 @@ class BaseVLNCETrainer(BaseILTrainer):
             "state_dict": self.policy.state_dict(),
             "config": self.config,
         }
+        encoder = self.policy.net.instruction_encoder
+        if hasattr(encoder, "word_list"):
+            checkpoint["instruction_vocab"] = checkpoint_vocab(encoder.word_list)
         torch.save(
             checkpoint, os.path.join(self.config.CHECKPOINT_FOLDER, file_name)
         )
