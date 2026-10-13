@@ -141,13 +141,12 @@ docker run --gpus all -it --rm \
 
 #### Published Benchmark Reference
 
-| Split | SR | NE | CR | TCR |
-|:---|:---:|:---:|:---:|:---:|
-| `val_seen` | 0.180 | 6.223 | 0.623 | 13.726 |
-| `val_unseen` | 0.129 | 6.387 | 0.684 | 17.536 |
+| Split | Score | SR | NE | CR | TCR |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| `val_seen` | 15.47 | 0.165 | 6.230 | 0.638 | 13.271 |
+| `val_unseen` | 11.94 | 0.114 | 6.502 | 0.689 | 22.352 |
 
-These released-checkpoint reference values follow the
-[official Track 2 baseline walkthrough](https://github.com/roboworld2026/track2).
+The trainer reports component metrics; use the [participant toolkit](https://github.com/F1y1113/havln-challenge) for official action replay and Score.
 
 ### Alternative: Native Installation
 
