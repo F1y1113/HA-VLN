@@ -47,4 +47,3 @@ in the training configuration. Transfer keeps the new HA-R2R GloVe initializer
 and loads all other weights; missing or unexpected non-embedding weights are
 errors. Use the default `restore` mode to evaluate or resume a trained HA-R2R
 checkpoint.
-
