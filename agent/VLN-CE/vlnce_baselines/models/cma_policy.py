@@ -13,7 +13,7 @@ from habitat_baselines.rl.models.rnn_state_encoder import (
 from habitat_baselines.rl.ppo.policy import Net
 from torch import Tensor
 
-from vlnce_baselines.common.aux_losses import AuxLosses
+from vlnce_baselines.common.aux_losses import AuxLosses, progress_monitor_loss
 from vlnce_baselines.models.encoders import resnet_encoders
 from vlnce_baselines.models.encoders.instruction_encoder import (
     InstructionEncoder,
@@ -295,11 +295,7 @@ class CMANet(Net):
 
         if self.model_config.PROGRESS_MONITOR.use and AuxLosses.is_active():
             progress_hat = torch.tanh(self.progress_monitor(x))
-            progress_loss = F.mse_loss(
-                progress_hat.squeeze(1),
-                observations["progress"],
-                reduction="none",
-            )
+            progress_loss = progress_monitor_loss(progress_hat, observations["progress"])
             AuxLosses.register_loss(
                 "progress_monitor",
                 progress_loss,
