@@ -48,11 +48,3 @@ and loads all other weights; missing or unexpected non-embedding weights are
 errors. Use the default `restore` mode to evaluate or resume a trained HA-R2R
 checkpoint.
 
-## CMA training supervision
-
-CMA's progress monitor learns one progress target per trajectory step. Its
-prediction and target are flattened to the same shape before computing the
-per-step MSE, then the existing valid-step mask excludes padding. This avoids
-the historical `[N]` versus `[N, 1]` broadcast that mixed targets across steps.
-The auxiliary loss is active only during training; the change does not alter
-released-checkpoint inference.
